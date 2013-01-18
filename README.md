@@ -1,6 +1,6 @@
 Building a web based text editor/compiler/interpreter/executer
 ==============================================================
-This is a collection of all the versions I created during the making of a web-based online text editor/compiler/interpreter/executer. In short a __mini IDE__
+This is a collection of all the versions I created during the making of a web-based online text editor/compiler/interpreter/executer. In short a __mini IDE__<br/>
 A full fledged tutorial explanation for every version is in the works
 
 # Log
