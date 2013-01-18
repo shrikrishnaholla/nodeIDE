@@ -7,9 +7,9 @@ A full fledged tutorial explanation for every version is in the works
 
 Version 1
 =========
-## Upload a C file. It parses the body of the post data, creates a .c file in temporary location and executes it as a child process. stdout and stderr are sent as reply
+###### Upload a C file. It parses the body of the post data, creates a .c file in temporary location and executes it as a child process. stdout and stderr are sent as reply
 
-## Things learnt
+###### Things learnt
   * How to structure a nodejs application
   * Handling requests and sending responses
   * Parsing POST data
@@ -21,33 +21,33 @@ Version 1
 
 Version 2
 =========
-## Write code in a textbox. Everything else almost the same as v0.01
+###### Write code in a textbox. Everything else almost the same as v0.01
 
-## Things learnt
+###### Things learnt
   * Usage of [Highlight.js](http://softwaremaniacs.org/soft/highlight/en/) to highlight code
   * Accepting code in a way better than what is done in v0.01
   * Clearing Infinite loop checking timer on getting exit code from spawned process
 
 Version 3
 =========
-## Socket.io is used to send and receive data from the client in real time. No need to send response to another page
+###### Socket.io is used to send and receive data from the client in real time. No need to send response to another page
 
-## Things learnt
+###### Things learnt
   * WebSockets
   * Usage of [socket.io](http://socket.io/) library, both on server and on client
 
 Version 4
 =========
-## New Languages added. Code made more modular and more generic to allow for easy extension to more languages.
+###### New Languages added. Code made more modular and more generic to allow for easy extension to more languages.
 
-## Things learnt
+###### Things learnt
   * Importance of modularity of operations
   * Improving application code to allow for easy scalability
 
 Version 5
 =========
-## More features added. The user can send command line arguments and can give inputs during execution too
+###### More features added. The user can send command line arguments and can give inputs during execution too
 
-## Things learnt
+###### Things learnt
   * Buffering of Streams (stdio)
   * Usage [pty.js-dl](https://github.com/chjj/pty.js/) library and pseudo ttys (Making a non-terminal application believe it is one)
