@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CoderJS</title>
+        <script type="text/javascript">var hljs = null</script>
+        <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/monokai.min.css">
+        <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
+        <script type="text/javascript">
+            if(hljs) hljs.initHighlightingOnLoad();
+        </script>
+    </head>
+    <body style="background:black;color:lime;">
+        
+        <h1>Write a program without standard inputs required</h1>
+        
+        <pre>
+            <code contenteditable id="source" spellcheck="false" onkeyup="whatIsIt(event)">
+#include&lt;stdio.h&gt;
+int main() {
+    printf("Hello World");
+    return 0;
+}
+            </code>
+        </pre>
+
+        <select id="langoption" onchange="highlightAgain()">
+            <option value="perl" selected>C</option> <!--highlight.js doesn't have C -->
+            <option value="cpp">C++</option>
+            <option value="python">Python</option>
+            <option value="ruby">Ruby</option>
+            <option value="javascript">JavaScript</option>
+        </select>
+        Command line arguments: <input type="text" name="args" id="args">
+        <button type="button" onclick="submitCode()" id="compile-interpret">Compile</button><br/>
+        <div id="socketmsg"></div>
+        Stdin: <input type="text" name="stdin" id="stdin">
+        <button type="button" onclick="streamStdin()" id="stream">Send</button>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript">
+
+            var socket = io.connect('http://localhost:1034');
+            socket.on('message', function(data){ document.getElementById("socketmsg").innerHTML += ("<pre>"+data +"</pre>") })
+
+            function streamStdin () {
+                var streamIn = document.getElementById("stdin")
+                if (socket) {
+                    socket.emit('stdin', {input: streamIn.value})
+                    streamIn.value = ""
+                };
+            }
+            function submitCode() {
+                var snippet = document.getElementById("source")
+                var args = document.getElementById('args')
+                document.getElementById("socketmsg").textContent = ""
+                highlightAgain()
+                if (snippet.textContent == "") {
+                    document.getElementById("socketmsg").textContent = "Please write some code before trying to execute"
+                } else {
+                    var lang = document.getElementById("langoption")
+                    socket.emit('run', {
+                        code: snippet.textContent,
+                        args: args.value, 
+                        language: lang.options[lang.selectedIndex].value
+                    })
+                }
+            }
+
+            function highlightAgain () {
+                if (hljs) {
+                    var snippet = document.getElementById("source")
+                    var screwedHTML = snippet.innerHTML
+                    screwedHTML = screwedHTML.replace(/<div>/mg,"\n")
+                    screwedHTML = screwedHTML.replace(/<\/div>/mg,"")
+                    snippet.innerHTML = screwedHTML
+                    var lang = document.getElementById("langoption")
+                    snippet.innerHTML = hljs.highlight(lang.options[lang.selectedIndex].value, snippet.textContent).value
+                };
+                var lang = document.getElementById("langoption")
+                var l = lang.options[lang.selectedIndex].value
+                if (l === "perl" || l === "cpp") {
+                    document.getElementById("compile-interpret").innerHTML = "Compile"
+                } else {
+                    document.getElementById("compile-interpret").innerHTML = "Interpret"
+                }
+            }
+
+            function whatIsIt (event) {
+                if(event.keyCode == 13 && hljs) {
+                    /// This screws with placement of caret on enter press. Otherwise fine
+                    /*var snippet = document.getElementById("source")
+                    var screwedHTML = snippet.innerHTML
+                    screwedHTML = screwedHTML.replace(/<div>/mg,"\n")
+                    screwedHTML = screwedHTML.replace(/<\/div>/mg,"")
+                    snippet.innerHTML = screwedHTML
+                    snippet.innerHTML = hljs.highlightAuto(snippet.textContent).value*/
+                }
+            }
+        </script>
+
+
+    </body>
+</html>

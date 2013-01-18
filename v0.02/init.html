@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CoderJS</title>
+        <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/monokai.min.css">
+        <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
+        <script type="text/javascript">
+        hljs.initHighlightingOnLoad();
+        </script>
+    </head>
+    <body>
+        
+        <h1>Upload a C program without standard inputs required</h1>
+        
+        <pre>
+            <code contenteditable id="code1" onkeypress="highlighter">
+#include&lt;stdio.h&gt;
+int main() {
+    printf("Write your C code here");
+    return 0;
+}
+            </code>
+        </pre>
+
+        <script type="text/javascript">
+        function setHiddenValues () {
+            hljs.fixMarkup(document.getElementById("code1").textContent, '    ', true)
+            var snippet = document.getElementById("code1").textContent
+            document.forms[0].codesnippet.value = snippet
+        }
+        </script>
+
+        <form id="codeform" action="/cmpnrun" method="post" onsubmit="setHiddenValues()">
+            <input type=hidden name="codesnippet" id="hiddenelement"/>
+            <input type=submit name="compile/interpret"/>
+        </form>
+
+    </body>
+</html>

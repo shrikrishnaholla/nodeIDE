@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CoderJS</title>
+        <script type="text/javascript">var hljs = null</script>
+        <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/monokai.min.css">
+        <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
+        <script type="text/javascript">
+            if(hljs) hljs.initHighlightingOnLoad();
+        </script>
+    </head>
+    <body style="background:black;color:lime;">
+        
+        <h1>Write C program without standard inputs required</h1>
+        
+        <pre>
+            <code contenteditable id="source" spellcheck="false" onkeyup="whatIsIt(event)">
+#include&lt;stdio.h&gt;
+int main() {
+    printf("Write your C code here");
+    return 0;
+}
+            </code>
+        </pre>
+
+        <button type="button" onclick="send()">Compile/Interpret</button>
+        <div id="socketmsg"></div>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript">
+            function send () {
+                var snippet = document.getElementById("source")
+                document.getElementById("socketmsg").textContent = ""
+                if (hljs) {
+                    var screwedHTML = snippet.innerHTML
+                    screwedHTML = screwedHTML.replace(/<div>/mg,"\n")
+                    screwedHTML = screwedHTML.replace(/<\/div>/mg,"")
+                    snippet.innerHTML = screwedHTML
+                    snippet.innerHTML = hljs.highlightAuto(snippet.textContent).value
+                };
+                if (snippet.textContent == "") {
+                    document.getElementById("socketmsg").textContent = "Please write some code before trying to execute"
+                } else {
+                    socket.emit('run', {contents:snippet.textContent})
+                }
+            }
+            var socket = io.connect('http://localhost:1032');
+            socket.on('message', function(data){ document.getElementById("socketmsg").innerHTML += ('<br/>' + data) })
+
+            function whatIsIt (event) {
+                if(event.keyCode == 13 && hljs) {
+                    /// This screws with placement of caret on enter press. Otherwise fine
+                    /*var snippet = document.getElementById("source")
+                    var screwedHTML = snippet.innerHTML
+                    screwedHTML = screwedHTML.replace(/<div>/mg,"\n")
+                    screwedHTML = screwedHTML.replace(/<\/div>/mg,"")
+                    snippet.innerHTML = screwedHTML
+                    snippet.innerHTML = hljs.highlightAuto(snippet.textContent).value*/
+                }
+            }
+        </script>
+
+
+    </body>
+</html>
