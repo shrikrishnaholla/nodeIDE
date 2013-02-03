@@ -51,3 +51,8 @@ Version 5
 ###### Things learnt
   * Buffering of Streams (stdio)
   * Usage [pty.js-dl](https://github.com/chjj/pty.js/) library and pseudo ttys (Making a non-terminal application believe it is one)
+ 
+
+License
+=======
+This work is licensed under the [MIT license](http://en.wikipedia.org/wiki/MIT_License)
